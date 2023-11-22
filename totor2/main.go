@@ -2,17 +2,21 @@ package main
 
 import (
 	"fmt"
-	//"io/fs"
 	"strconv"
 	"net/http"
 	"github.com/gorilla/mux"
 )
 func main() {
-	r := mux.NewRouter()
+	r:=mux.NewRouter()
 
-	r.HandleFunc("/books/{title}/page/{page}", func(w http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/books/{title}/page/{page}", func(w http.ResponseWriter, r *http.Request){
 		vars := mux.Vars(r)
-		fmt.Fprintf(w, "<h1>Book: %s</h1><br><h2>Page: %s</h2>", vars["title"], vars["page"])
+        title := vars["title"]
+        page := vars["page"]
+		
+		b := []byte("<h1>Book:" + title + "</h1><br><h2>: " + page + "</h2>")
+	w.Write(b)
+        fmt.Fprintf(w, "You've requested the book: %s on page %s\n", title, page)
 	})
 
 	r.HandleFunc("/cal/{num1}/plus/{num2}", func(w http.ResponseWriter, r *http.Request) {
